@@ -1,10 +1,10 @@
-// src/lib/axios.js
+// src/utils/api.js
 import axios from "axios";
 import { useAuthStore } from '../store/useAuthStore';
-const ENVIROMENT = import.meta.env.VITE_ENVIRONMENT || "development";
-const API_BASE = ENVIROMENT === "development"
-    ? import.meta.env.VITE_API_URL_LOCAL
-    : import.meta.env.VITE_API_URL_PROD;
+const ENVIRONMENT = import.meta.env.VITE_ENVIRONMENT || "development";
+const API_BASE = ENVIRONMENT === "development"
+    ? (import.meta.env.VITE_API_URL_LOCAL || "http://localhost:3000")
+    : (import.meta.env.VITE_API_URL_PROD || "https://snap-bulance-backend.onrender.com");
 export const api = axios.create({
     baseURL: API_BASE, // Backend API URL
     withCredentials: true, // CRITICAL: This tells the browser to send the HTTP-only cookie
