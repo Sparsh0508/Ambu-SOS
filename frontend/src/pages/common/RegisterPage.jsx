@@ -38,7 +38,7 @@ const RegisterPage = () => {
                 role,
             });
 
-            toast.success("Account created successfully! Welcome to SnapBulance.");
+            toast.success("Account created successfully! Welcome to AmbuSOS.");
 
             // Route them based on the role they just registered as
             if (role === "USER")
@@ -89,11 +89,9 @@ const RegisterPage = () => {
         <div className="sb-register__brand" aria-hidden="true">
           <div className="sb-register__brand-top">
             <div className="sb-register__brand-name">
-              SNAP
+              AMBU
               <span>
-                BUL
-                <br />
-                ANCE
+                SOS
               </span>
             </div>
             <p className="sb-register__brand-tagline">

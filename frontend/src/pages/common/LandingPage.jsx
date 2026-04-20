@@ -32,8 +32,8 @@ const LandingPage = () => {
 
           {/* Giant title */}
           <h1 className="sb-lp-hero__title">
-            <span className="sb-lp-hero__title-snap">SNAP</span>
-            <span className="sb-lp-hero__title-bulance">BULANCE</span>
+            <span className="sb-lp-hero__title-snap">AMBU</span>
+            <span className="sb-lp-hero__title-bulance">SOS</span>
           </h1>
 
           {/* Tagline */}
@@ -217,10 +217,10 @@ const LandingPage = () => {
           ════════════════════════════════ */}
       <footer className="sb-lp-footer-band">
         <span className="sb-lp-footer-logo">
-          Snap<span>Bulance</span>
+          Ambu<span>SOS</span>
         </span>
         <span className="sb-lp-footer-tagline">
-          © {new Date().getFullYear()} SnapBulance Project · Emergency Response
+          © {new Date().getFullYear()} AmbuSOS Project · Emergency Response
           Platform
         </span>
       </footer>

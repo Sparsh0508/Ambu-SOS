@@ -8,7 +8,7 @@ const Footer = () => {
           <a href="/" className="sb-footer__logo">
             <span className="sb-footer__logo-icon">🚑</span>
             <span className="sb-footer__logo-text">
-              Snap<span>Bulance</span>
+              Ambu<span>SOS</span>
             </span>
           </a>
           <span className="sb-footer__tagline">
@@ -25,7 +25,7 @@ const Footer = () => {
 
           <p className="sb-footer__copyright">
             &copy; {new Date().getFullYear()}{" "}
-            <strong>SnapBulance Project.</strong> All rights reserved.
+            <strong>AmbuSOS Project.</strong> All rights reserved.
           </p>
         </div>
 

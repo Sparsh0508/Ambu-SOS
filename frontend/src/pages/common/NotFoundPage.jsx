@@ -37,7 +37,7 @@ const NotFoundPage = () => {
  
             {/* ── Actions ── */}
             <div className="sb-404__cta-wrap">
-                <Link to="/" className="sb-404__btn" aria-label="Return to SnapBulance home">
+                <Link to="/" className="sb-404__btn" aria-label="Return to AmbuSOS home">
                     ← Return to Base
                 </Link>
             </div>
@@ -45,7 +45,7 @@ const NotFoundPage = () => {
             {/* ── Decorative error code ── */}
             <div className="sb-404__code" aria-hidden="true">
                 <span className="sb-404__code-label">ERR</span>
-                HTTP_404_NOT_FOUND · SNAPBULANCE_DISPATCH
+                HTTP_404_NOT_FOUND · AMBUSOS_DISPATCH
             </div>
  
         </div>

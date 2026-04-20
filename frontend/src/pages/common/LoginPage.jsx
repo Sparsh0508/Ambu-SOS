@@ -70,7 +70,7 @@ const LoginPage = () => {
             <div className="sb-login__brand" aria-hidden="true">
                 <div className="sb-login__brand-top">
                     <div className="sb-login__brand-name">
-                        SNAP<span>BUL<br />ANCE</span>
+                        AMBU<span>SOS</span>
                     </div>
                     <p className="sb-login__brand-tagline">
                         India's fastest emergency response network. Dispatch in seconds.
@@ -116,7 +116,7 @@ const LoginPage = () => {
                         <input id="password" className="sb-login__input" type="password" placeholder="••••••••" required autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)}/>
                     </div>
  
-                    <button type="submit" className="sb-login__submit" disabled={isLoading} aria-busy={isLoading} aria-label={isLoading ? 'Authenticating, please wait' : 'Login to SnapBulance'}>
+                    <button type="submit" className="sb-login__submit" disabled={isLoading} aria-busy={isLoading} aria-label={isLoading ? 'Authenticating, please wait' : 'Login to AmbuSOS'}>
                         {isLoading ? (<>
                                 <div className="sb-login__submit-spinner" aria-hidden="true">
                                     <span /><span /><span />
@@ -130,7 +130,7 @@ const LoginPage = () => {
                 {/* Divider */}
                 <div className="sb-login__divider" aria-hidden="true">
                     <div className="sb-login__divider-line"/>
-                    <span className="sb-login__divider-text">New to SnapBulance?</span>
+                    <span className="sb-login__divider-text">New to AmbuSOS?</span>
                     <div className="sb-login__divider-line"/>
                 </div>
  

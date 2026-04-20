@@ -30,7 +30,7 @@ const Navbar = () => {
       <Link to={getHomeRoute()} className="sb-logo">
         <span className="sb-logo__icon">🚑</span>
         <span className="sb-logo__text">
-          Snap<span>Bulance</span>
+          Ambu<span>SOS</span>
         </span>
       </Link>
 
