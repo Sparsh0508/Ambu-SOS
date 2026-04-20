@@ -1,4 +1,4 @@
-# SnapBulance 🚑
+# AmbuSOS 🚑
 
 > **Optimized Emergency Response System**
 > *Reducing response times through intelligent routing, community alerts, and automated hospital handshakes.*
@@ -152,6 +152,6 @@ SnapBulance's MVP is fully shipped — a distributed, real-time emergency dispat
 
 If you'd like to dig into the architecture, discuss the engineering tradeoffs, or explore collaboration opportunities, I'd love to hear from you.
 
-📧 **Email:** [ninadwalke00@gmail.com](mailto:ninadwalke00@gmail.com)
+📧 **Email:** [sparsh.agarwal0508@gmail.com](mailto:sparsh.agarwal0508@gmail.com)
 
 ---
