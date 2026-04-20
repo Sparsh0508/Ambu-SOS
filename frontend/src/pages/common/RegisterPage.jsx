@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import AuthToast from "../../components/AuthToast";
 import { useAuthStore } from "../../store/useAuthStore"; // Adjust path as needed
 import { extractApiErrorMessage } from "../../utils/api-errors";
 import "./Register.css";
@@ -72,6 +73,7 @@ const RegisterPage = () => {
         },
     };
     return (<div className="sb-register">
+      <AuthToast message={errorMsg} onClose={() => setErrorMsg("")}/>
       {/* Background elements */}
       <div className="sb-register__grid" aria-hidden="true"/>
       <div className="sb-register__glow-left" aria-hidden="true"/>
@@ -139,12 +141,6 @@ const RegisterPage = () => {
                 <span className="sb-register__role-label">{cfg.label}</span>
               </button>))}
           </div>
-
-          {/* Error message */}
-          {errorMsg && (<div className="sb-register__error" role="alert" aria-live="assertive">
-              <span aria-hidden="true">⚠</span>
-              {errorMsg}
-            </div>)}
 
           {/* Form */}
           <form className="sb-register__form" onSubmit={handleSignup} noValidate>

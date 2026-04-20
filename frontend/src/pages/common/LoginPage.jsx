@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
+import AuthToast from '../../components/AuthToast';
 import { useAuthStore } from '../../store/useAuthStore'; // Adjust path as needed
 import { extractApiErrorMessage } from '../../utils/api-errors';
 import './LoginPage.css';
@@ -49,6 +50,7 @@ const LoginPage = () => {
         }
     };
     return (<div className="sb-login">
+        <AuthToast message={errorMsg} onClose={() => setErrorMsg('')}/>
  
         {/* Background elements */}
         <div className="sb-login__grid" aria-hidden="true"/>
@@ -94,12 +96,6 @@ const LoginPage = () => {
                     <h1 className="sb-login__form-title">Welcome Back</h1>
                     <p className="sb-login__form-subtitle">Sign in to access your dashboard.</p>
                 </div>
- 
-                {/* Error message */}
-                {errorMsg && (<div className="sb-login__error" role="alert" aria-live="assertive">
-                        <span className="sb-login__error-icon" aria-hidden="true">⚠</span>
-                        {errorMsg}
-                    </div>)}
  
                 {/* Form */}
                 <form className="sb-login__form" onSubmit={handleLogin} noValidate>
