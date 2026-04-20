@@ -1,4 +1,4 @@
-# 🚀 SnapBulance: Total Tech Stack Cheat Sheet
+# 🚀 AmbuSOS: Total Tech Stack Cheat Sheet
 
 > **Status note:** This cheat sheet was written for the older TypeScript/NestJS stack. The current workspace has been converted to JavaScript/JSX with React in `frontend` and Express + MongoDB in `backend`.
 

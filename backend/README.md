@@ -1,4 +1,4 @@
-# SnapBulance Backend
+# AmbuSOS Backend
 
 Express + MongoDB backend written in JavaScript.
 

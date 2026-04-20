@@ -1,4 +1,4 @@
-# SnapBulance Frontend
+# AmbuSOS Frontend
 
 React + Vite frontend written in JavaScript/JSX.
 

@@ -1,6 +1,6 @@
-# SnapBulance — Architecture & Implementation Documentation
+# AmbuSOS — Architecture & Implementation Documentation
 
-> **SnapBulance** is an emergency ambulance dispatch and real-time tracking system. This document details the core architectural decisions, integration patterns, and infrastructure setup behind the five foundational backlog items that power the platform.
+> **AmbuSOS** is an emergency ambulance dispatch and real-time tracking system. This document details the core architectural decisions, integration patterns, and infrastructure setup behind the five foundational backlog items that power the platform.
 >
 > **Status note:** This document reflects the earlier NestJS/Prisma architecture. The current live codebase in this workspace now runs on JavaScript with React on the frontend and Express + MongoDB on the backend.
 
@@ -771,4 +771,4 @@ External Traffic
 
 ---
 
-*Documentation version: 1.0.0 — Generated for the SnapBulance core backlog sprint.*
+*Documentation version: 1.0.0 — Generated for the AmbuSOS core backlog sprint.*
