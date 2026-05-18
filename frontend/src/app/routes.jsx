@@ -40,11 +40,15 @@ export const appRoutes = [
     children: [
       { path: "/driver/dashboard", element: <DriverDashboardPage /> },
       { path: "/driver/navigation/:tripId", element: <ActiveNavigationPage /> },
+      { path: "/driver/profile", element: <PatientProfilePage /> },
     ],
   },
   {
     element: <ProtectedRoute allowedRoles={["CFR"]} />,
-    children: [{ path: "/cfr/dashboard", element: <CfrDashboardPage /> }],
+    children: [
+      { path: "/cfr/dashboard", element: <CfrDashboardPage /> },
+      { path: "/cfr/profile", element: <PatientProfilePage /> },
+    ],
   },
   {
     element: <ProtectedRoute allowedRoles={["HOSPITAL_ADMIN"]} />,

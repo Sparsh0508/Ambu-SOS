@@ -19,6 +19,7 @@ import { useAuthStore } from "../../../store/useAuthStore";
 export default function DriverDashboardPage() {
   const navigate = useNavigate();
   const user = useAuthStore((state) => state.user);
+  const logout = useAuthStore((state) => state.logout);
   const [dashboard, setDashboard] = useState(null);
   const [pendingRequests, setPendingRequests] = useState([]);
   const [activeTrip, setActiveTrip] = useState(null);
@@ -165,7 +166,7 @@ export default function DriverDashboardPage() {
           <button className="flex h-10 w-10 items-center justify-center rounded-full text-primary transition-colors hover:bg-surface-container-high">
             <MaterialIcon name="notifications" />
           </button>
-          <button className="flex h-10 w-10 items-center justify-center rounded-full text-primary transition-colors hover:bg-surface-container-high">
+          <button className="flex h-10 w-10 items-center justify-center rounded-full text-primary transition-colors hover:bg-surface-container-high" onClick={() => navigate("/driver/profile")}>
             <MaterialIcon name="account_circle" />
           </button>
         </>

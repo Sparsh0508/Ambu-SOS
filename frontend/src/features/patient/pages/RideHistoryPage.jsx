@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { BottomNav } from "../../../components/layout/BottomNav";
 import { TopBar } from "../../../components/layout/TopBar";
 import { EmptyState, PageError, PageLoader } from "../../../components/ui/PageState";
@@ -81,7 +82,7 @@ export default function RideHistoryPage() {
     return (
       <div className="min-h-screen bg-background">
         <TopBar sticky />
-        <PageError actionLabel="Try Again" message={error} onAction={() => window.location.reload()} />
+        <PageError actionLabel="Try Again" message={error} onAction={() => navigate(0)} />
       </div>
     );
   }
@@ -146,7 +147,30 @@ export default function RideHistoryPage() {
           <Panel className="overflow-hidden lg:col-span-2">
             <div className="flex items-center justify-between border-b border-outline-variant bg-surface-container-low p-4">
               <h3 className="text-headline-sm">Trip Records</h3>
-              <button className="flex items-center gap-2 rounded-lg p-2 text-primary transition-colors hover:bg-primary-container">
+              <button
+                className="flex items-center gap-2 rounded-lg p-2 text-primary transition-colors hover:bg-primary-container"
+                onClick={() => {
+                  const csvContent = [
+                    ["Date", "Time", "Destination", "Status"].join(","),
+                    ...rides.map((ride) => [
+                      new Date(ride.requestedAt).toLocaleDateString(),
+                      new Date(ride.requestedAt).toLocaleTimeString(),
+                      ride.hospital?.name || ride.destAddress || ride.pickupAddress,
+                      ride.status,
+                    ].join(",")),
+                  ].join("\n");
+                  
+                  const blob = new Blob([csvContent], { type: "text/csv" });
+                  const url = window.URL.createObjectURL(blob);
+                  const link = document.createElement("a");
+                  link.href = url;
+                  link.download = `trip-history-${new Date().toISOString().split("T")[0]}.csv`;
+                  link.click();
+                  window.URL.revokeObjectURL(url);
+                  toast.success("Trip history exported successfully!");
+                }}
+                type="button"
+              >
                 <MaterialIcon name="download" className="text-sm" />
                 <span className="text-label-sm font-semibold">EXPORT</span>
               </button>

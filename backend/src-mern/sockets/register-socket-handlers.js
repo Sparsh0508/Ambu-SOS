@@ -2,14 +2,15 @@ import { ChatMessageModel } from '../models/chat-message.js';
 import { DriverProfileModel } from '../models/driver-profile.js';
 import { TripModel } from '../models/trip.js';
 import { normalizeDocument } from '../utils/normalize.js';
+import { isProduction } from '../config.js';
 export function registerSocketHandlers(io) {
     io.on('connection', (socket) => {
-        console.log(`Client connected: ${socket.id}`);
+        if (!isProduction) console.log(`Client connected: ${socket.id}`);
         socket.on('disconnect', () => {
-            console.log(`Client disconnected: ${socket.id}`);
+            if (!isProduction) console.log(`Client disconnected: ${socket.id}`);
         });
         socket.on('pingServer', (payload) => {
-            console.log(`Received ping from ${socket.id}`, payload);
+            if (!isProduction) console.log(`Received ping from ${socket.id}`, payload);
             socket.emit('pongClient', { message: 'Hello from Express!' });
         });
         socket.on('joinTrip', (tripId) => {
@@ -33,7 +34,7 @@ export function registerSocketHandlers(io) {
         socket.on('acceptTrip', async (payload) => {
             const driverProfile = await DriverProfileModel.findOne({ userId: payload.driverId });
             if (!driverProfile) {
-                console.error(`No driver profile found for user ${payload.driverId}`);
+                if (!isProduction) console.error(`No driver profile found for user ${payload.driverId}`);
                 return;
             }
             await Promise.all([

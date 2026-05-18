@@ -113,9 +113,16 @@ export default function LoginPage() {
             <div className="space-y-unit">
               <div className="flex items-end justify-between">
                 <span className="text-label-md uppercase tracking-widest text-on-surface">Passcode</span>
-                <a className="text-label-sm text-secondary underline decoration-outline-variant underline-offset-2 hover:text-primary" href="/">
+                <button
+                  type="button"
+                  className="text-label-sm text-secondary underline decoration-outline-variant underline-offset-2 hover:text-primary transition-colors"
+                  onClick={() => {
+                    updateField("password", "");
+                    toast.info("Passcode cleared. Contact system administrator for full reset.");
+                  }}
+                >
                   Reset Access
-                </a>
+                </button>
               </div>
               <TextField
                 id="passcode"

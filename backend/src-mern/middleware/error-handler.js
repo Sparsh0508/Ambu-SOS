@@ -41,7 +41,7 @@ export function errorHandler(error, req, res, _next) {
         message = error.message || message;
     }
 
-    console.error(`[${req.method}] ${req.url} - Status: ${statusCode}`, error);
+    if (!isProduction) console.error(`[${req.method}] ${req.url} - Status: ${statusCode}`, error);
 
     res.status(statusCode).json({
         success: false,

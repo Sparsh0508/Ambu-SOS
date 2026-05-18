@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { DashboardShell } from "../../../components/layout/DashboardShell";
 import { Button } from "../../../components/ui/Button";
 import { EmptyState, PageError, PageLoader } from "../../../components/ui/PageState";
@@ -15,6 +15,7 @@ const sideItems = [
 ];
 
 export default function HospitalDashboardPage() {
+  const navigate = useNavigate();
   const [trips, setTrips] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
@@ -59,7 +60,7 @@ export default function HospitalDashboardPage() {
   }
 
   if (error && !trips.length) {
-    return <PageError actionLabel="Retry" message={error} onAction={() => window.location.reload()} />;
+    return <PageError actionLabel="Retry" message={error} onAction={() => navigate(0)} />;
   }
 
   return (
@@ -68,7 +69,7 @@ export default function HospitalDashboardPage() {
       sideSubtitle="Hospital Command"
       sideItems={sideItems}
       sideCta={
-        <Button className="mt-auto w-full" icon="settings" onClick={() => window.location.assign("/hospital/profile")}>
+        <Button className="mt-auto w-full" icon="settings" onClick={() => navigate("/hospital/profile")}>
           Manage Resources
         </Button>
       }

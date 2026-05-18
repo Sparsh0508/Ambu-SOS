@@ -228,9 +228,9 @@ export default function LandingPage() {
               <div key={column.heading} className="flex flex-col gap-3">
                 <span className="text-label-md uppercase text-on-secondary">{column.heading}</span>
                 {column.links.map((link) => (
-                  <a key={link} className="text-body-md text-secondary-fixed-dim hover:text-white" href="/">
+                  <Link key={link} className="text-body-md text-secondary-fixed-dim hover:text-white" to="/">
                     {link}
-                  </a>
+                  </Link>
                 ))}
               </div>
             ))}

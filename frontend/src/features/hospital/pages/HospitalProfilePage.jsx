@@ -1,14 +1,19 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { DashboardShell } from "../../../components/layout/DashboardShell";
 import { Button } from "../../../components/ui/Button";
+import { MaterialIcon } from "../../../components/ui/MaterialIcon";
 import { PageError, PageLoader } from "../../../components/ui/PageState";
 import { Panel } from "../../../components/ui/Panel";
 import { TextField } from "../../../components/ui/TextField";
 import { getApiErrorMessage } from "../../../services/apiClient";
 import { hospitalApi } from "../../../services/appApi";
+import { useAuthStore } from "../../../store/useAuthStore";
 
 export default function HospitalProfilePage() {
+  const navigate = useNavigate();
+  const logout = useAuthStore((state) => state.logout);
   const [profile, setProfile] = useState(null);
   const [draft, setDraft] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -64,6 +69,46 @@ export default function HospitalProfilePage() {
       return;
     }
 
+    // Validate phone format (basic: at least 10 digits)
+    const phoneRegex = /^\+?[\d\s\-\(\)]{10,}$/;
+    if (draft.phone.trim() && !phoneRegex.test(draft.phone.trim())) {
+      toast.error("Please enter a valid phone number (at least 10 digits).");
+      return;
+    }
+
+    // Validate coordinates
+    const latitude = Number(draft.latitude);
+    const longitude = Number(draft.longitude);
+
+    if (isNaN(latitude) || latitude < -90 || latitude > 90) {
+      toast.error("Latitude must be a number between -90 and 90.");
+      return;
+    }
+
+    if (isNaN(longitude) || longitude < -180 || longitude > 180) {
+      toast.error("Longitude must be a number between -180 and 180.");
+      return;
+    }
+
+    const beds = Number(draft.availableBeds);
+    const icu = Number(draft.icuAvailable);
+    const ventilators = Number(draft.ventilators);
+
+    if (isNaN(beds) || beds < 0 || !Number.isInteger(beds)) {
+      toast.error("Available beds must be a non-negative whole number.");
+      return;
+    }
+
+    if (isNaN(icu) || icu < 0 || !Number.isInteger(icu)) {
+      toast.error("ICU beds must be a non-negative whole number.");
+      return;
+    }
+
+    if (isNaN(ventilators) || ventilators < 0 || !Number.isInteger(ventilators)) {
+      toast.error("Ventilators must be a non-negative whole number.");
+      return;
+    }
+
     setIsSaving(true);
 
     try {
@@ -71,14 +116,24 @@ export default function HospitalProfilePage() {
         name: draft.name.trim(),
         address: draft.address.trim(),
         phone: draft.phone.trim(),
-        latitude: Number(draft.latitude),
-        longitude: Number(draft.longitude),
-        availableBeds: Number(draft.availableBeds),
-        icuAvailable: Number(draft.icuAvailable),
-        ventilators: Number(draft.ventilators),
+        latitude,
+        longitude,
+        availableBeds: beds,
+        icuAvailable: icu,
+        ventilators,
       });
 
       setProfile(response.data);
+      setDraft({
+        name: response.data.name ?? "",
+        address: response.data.address ?? "",
+        phone: response.data.phone ?? "",
+        latitude: String(response.data.latitude ?? ""),
+        longitude: String(response.data.longitude ?? ""),
+        availableBeds: String(response.data.availableBeds ?? 0),
+        icuAvailable: String(response.data.icuAvailable ?? 0),
+        ventilators: String(response.data.ventilators ?? 0),
+      });
       toast.success("Hospital profile updated.");
     } catch (requestError) {
       toast.error(getApiErrorMessage(requestError, "Could not save hospital profile."));
@@ -87,12 +142,17 @@ export default function HospitalProfilePage() {
     }
   }
 
+  async function handleLogout() {
+    await logout();
+    navigate("/login", { replace: true });
+  }
+
   if (isLoading) {
     return <PageLoader label="Loading hospital profile..." />;
   }
 
   if (!profile || !draft) {
-    return <PageError actionLabel="Retry" message={error} onAction={() => window.location.reload()} />;
+    return <PageError actionLabel="Retry" message={error} onAction={() => navigate(0)} />;
   }
 
   return (
@@ -103,7 +163,7 @@ export default function HospitalProfilePage() {
         { label: "Dashboard", icon: "dashboard", to: "/hospital/dashboard" },
         { label: "Profile", icon: "local_hospital", to: "/hospital/profile", active: true },
       ]}
-      sideCta={<Button className="mt-auto w-full" icon="save" loading={isSaving} onClick={handleSave}>Save Updates</Button>}
+      sideCta={<div className="mt-auto flex w-full gap-2"><Button variant="secondary" className="flex-1" onClick={() => setDraft({name: profile.name ?? "", address: profile.address ?? "", phone: profile.phone ?? "", latitude: String(profile.latitude ?? ""), longitude: String(profile.longitude ?? ""), availableBeds: String(profile.availableBeds ?? 0), icuAvailable: String(profile.icuAvailable ?? 0), ventilators: String(profile.ventilators ?? 0)})}>Reset</Button><Button icon="save" className="flex-1" loading={isSaving} onClick={handleSave}>Save Updates</Button></div>}
       bottomItems={[
         { label: "Dashboard", icon: "dashboard", to: "/hospital/dashboard" },
         { label: "Profile", icon: "local_hospital", to: "/hospital/profile", active: true },
@@ -138,6 +198,17 @@ export default function HospitalProfilePage() {
               <p className="mt-1 text-label-sm text-secondary">{profile.address}</p>
             </div>
           </Panel>
+        </div>
+
+        <div className="mt-8 flex justify-center border-t border-surface-variant pt-6">
+          <button
+            className="flex items-center gap-2 rounded-lg px-6 py-3 text-label-md text-error transition-colors hover:bg-error/10"
+            onClick={handleLogout}
+            type="button"
+          >
+            <MaterialIcon name="logout" />
+            Logout / Exit Profile
+          </button>
         </div>
       </div>
     </DashboardShell>

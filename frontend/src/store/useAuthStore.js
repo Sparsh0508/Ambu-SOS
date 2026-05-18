@@ -11,12 +11,17 @@ export const useAuthStore = create((set, get) => ({
       const response = await apiClient.get("/auth");
 
       if (response.data?.isAuth && response.data?.user) {
+        const user = {
+          ...response.data.user,
+          role: response.data.user.role ? String(response.data.user.role).toUpperCase() : response.data.user.role,
+        };
+
         set({
-          user: response.data.user,
+          user,
           isAuthenticated: true,
           isLoading: false,
         });
-        return response.data.user;
+        return user;
       }
 
       set({
@@ -41,13 +46,18 @@ export const useAuthStore = create((set, get) => ({
     try {
       const response = await apiClient.post("/auth/login", credentials);
 
+      const user = {
+        ...response.data.user,
+        role: response.data.user.role ? String(response.data.user.role).toUpperCase() : response.data.user.role,
+      };
+
       set({
-        user: response.data.user,
+        user,
         isAuthenticated: true,
         isLoading: false,
       });
 
-      return response.data.user;
+      return user;
     } catch (error) {
       set({ isLoading: false });
       throw error;
@@ -60,13 +70,18 @@ export const useAuthStore = create((set, get) => ({
     try {
       const response = await apiClient.post("/auth/signup", payload);
 
+      const user = {
+        ...response.data.user,
+        role: response.data.user.role ? String(response.data.user.role).toUpperCase() : response.data.user.role,
+      };
+
       set({
-        user: response.data.user,
+        user,
         isAuthenticated: true,
         isLoading: false,
       });
 
-      return response.data.user;
+      return user;
     } catch (error) {
       set({ isLoading: false });
       throw error;

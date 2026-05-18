@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { BottomNav } from "../../../components/layout/BottomNav";
 import { BrandMark } from "../../../components/layout/BrandMark";
@@ -14,6 +14,7 @@ import { cfrApi } from "../../../services/appApi";
 import { useAuthStore } from "../../../store/useAuthStore";
 
 export default function CfrDashboardPage() {
+  const navigate = useNavigate();
   const user = useAuthStore((state) => state.user);
   const [nearbyTrips, setNearbyTrips] = useState([]);
   const [currentLocation, setCurrentLocation] = useState(null);
@@ -28,8 +29,10 @@ export default function CfrDashboardPage() {
 
   useEffect(() => {
     let intervalId = null;
+    let mounted = true;
 
     async function fetchNearbyEmergencies() {
+      if (!mounted) return;
       setIsLoading(true);
 
       try {
@@ -37,12 +40,18 @@ export default function CfrDashboardPage() {
         setCurrentLocation(coords);
 
         const response = await cfrApi.getNearby(coords.lat, coords.lng);
-        setNearbyTrips(response.data);
-        setError("");
+        if (mounted) {
+          setNearbyTrips(response.data);
+          setError("");
+        }
       } catch (requestError) {
-        setError(getApiErrorMessage(requestError, "Unable to fetch nearby emergencies."));
+        if (mounted) {
+          setError(getApiErrorMessage(requestError, "Unable to fetch nearby emergencies."));
+        }
       } finally {
-        setIsLoading(false);
+        if (mounted) {
+          setIsLoading(false);
+        }
       }
     }
 
@@ -51,9 +60,11 @@ export default function CfrDashboardPage() {
     intervalId = window.setInterval(fetchNearbyEmergencies, 10000);
 
     return () => {
+      mounted = false;
       if (intervalId) {
         window.clearInterval(intervalId);
       }
+      socket.off("cfrAlert");
     };
   }, [currentLocation]);
 
@@ -79,7 +90,7 @@ export default function CfrDashboardPage() {
   }
 
   if (error && !nearbyTrips.length) {
-    return <PageError actionLabel="Retry" message={error} onAction={() => window.location.reload()} />;
+    return <PageError actionLabel="Retry" message={error} onAction={() => setError("")} />;
   }
 
   return (
@@ -90,7 +101,7 @@ export default function CfrDashboardPage() {
           <button className="flex h-10 w-10 items-center justify-center rounded-full hover:bg-surface-container-high">
             <MaterialIcon name="notifications" />
           </button>
-          <button className="flex h-10 w-10 items-center justify-center rounded-full hover:bg-surface-container-high">
+          <button className="flex h-10 w-10 items-center justify-center rounded-full hover:bg-surface-container-high" onClick={() => navigate("/cfr/profile")}>
             <MaterialIcon name="account_circle" />
           </button>
         </div>

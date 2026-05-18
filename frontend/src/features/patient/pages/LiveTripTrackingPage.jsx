@@ -188,10 +188,37 @@ export default function LiveTripTrackingPage() {
             </div>
 
             <div className="mt-auto flex flex-col gap-stack-md">
-              <Button variant="soft" className="w-full py-3 text-headline-sm" icon="share">
+              <Button
+                variant="soft"
+                className="w-full py-3 text-headline-sm"
+                icon="share"
+                onClick={() => {
+                  const trackingUrl = window.location.href;
+                  if (navigator.share) {
+                    navigator.share({
+                      title: `Trip ${tripId} Live Tracking`,
+                      text: `Follow my emergency ambulance arrival in real-time`,
+                      url: trackingUrl,
+                    }).catch(() => {
+                      navigator.clipboard.writeText(trackingUrl);
+                      toast.success("Tracking link copied to clipboard!");
+                    });
+                  } else {
+                    navigator.clipboard.writeText(trackingUrl);
+                    toast.success("Tracking link copied to clipboard!");
+                  }
+                }}
+              >
                 Share Live Status
               </Button>
-              <Button variant="soft" className="w-full py-3 text-headline-sm" icon="call">
+              <Button
+                variant="soft"
+                className="w-full py-3 text-headline-sm"
+                icon="call"
+                onClick={() => {
+                  toast.info("Dispatch contact: Emergency Services (911 or local equivalent)");
+                }}
+              >
                 Contact Dispatch
               </Button>
             </div>

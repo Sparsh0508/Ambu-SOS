@@ -88,6 +88,20 @@ export default function PatientProfilePage() {
       return;
     }
 
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (draft.email.trim() && !emailRegex.test(draft.email.trim())) {
+      toast.error("Please enter a valid email address.");
+      return;
+    }
+
+    // Validate phone format (basic: at least 10 digits)
+    const phoneRegex = /^\+?[\d\s\-\(\)]{10,}$/;
+    if (draft.phone.trim() && !phoneRegex.test(draft.phone.trim())) {
+      toast.error("Please enter a valid phone number (at least 10 digits).");
+      return;
+    }
+
     setIsSaving(true);
 
     try {
@@ -154,7 +168,10 @@ export default function PatientProfilePage() {
           <div className="flex gap-3">
             {isEditing ? (
               <>
-                <Button variant="secondary" onClick={() => setIsEditing(false)}>
+                <Button variant="secondary" onClick={() => {
+                  setDraft({...profile});
+                  setIsEditing(false);
+                }}>
                   Cancel
                 </Button>
                 <Button icon="save" loading={isSaving} onClick={handleSave}>

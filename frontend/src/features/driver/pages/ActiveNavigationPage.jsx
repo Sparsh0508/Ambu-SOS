@@ -81,6 +81,9 @@ export default function ActiveNavigationPage() {
 
     return () => {
       mounted = false;
+      // Clean up socket listeners for this trip
+      socket.off("tripStatusChanged");
+      socket.off("driverLocationUpdated");
     };
   }, [tripId]);
 
@@ -153,8 +156,10 @@ export default function ActiveNavigationPage() {
       if (report.vitalsCheck.trim()) {
         try {
           parsedVitals = JSON.parse(report.vitalsCheck);
-        } catch {
-          throw new Error("Vitals must be valid JSON before completing handover.");
+        } catch (parseError) {
+          setIsSubmitting(false);
+          toast.error("Vitals must be valid JSON before completing handover.");
+          return;
         }
       }
 

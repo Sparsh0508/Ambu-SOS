@@ -1,7 +1,8 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { cn } from "../../lib/utils";
 import { BrandMark } from "./BrandMark";
 import { IconButton } from "../ui/IconButton";
+import { useAuthStore } from "../../store/useAuthStore";
 
 export function TopBar({
   links = [],
@@ -11,6 +12,25 @@ export function TopBar({
   sticky = false,
   compact = false,
 }) {
+  const navigate = useNavigate();
+  const user = useAuthStore((state) => state.user);
+
+  const handleProfileClick = () => {
+    if (!user) {
+      navigate("/login");
+      return;
+    }
+    
+    const profileRoutes = {
+      USER: "/patient/profile",
+      DRIVER: "/driver/profile",
+      CFR: "/cfr/profile",
+      HOSPITAL_ADMIN: "/hospital/profile",
+    };
+    
+    const route = profileRoutes[user.role] || "/patient/profile";
+    navigate(route);
+  };
   return (
     <header
       className={cn(
@@ -44,7 +64,7 @@ export function TopBar({
         {rightSlot ?? (
           <>
             <IconButton icon="notifications" />
-            <IconButton icon="account_circle" />
+            <IconButton icon="account_circle" onClick={handleProfileClick} />
           </>
         )}
       </div>
