@@ -75,7 +75,7 @@ async function seedSystemData() {
         hospitalId: hospitalB.id,
     });
     const driverOneUser = await UserModel.create({
-        email: 'rajesh@snapbulance.com',
+        email: 'rajesh@AmbuSOS.com',
         phone: '9999911111',
         fullName: 'Rajesh Kumar',
         passwordHash: dummyPassword,
@@ -97,7 +97,7 @@ async function seedSystemData() {
         ambulanceId: driverOneAmbulance.id,
     });
     const driverTwoUser = await UserModel.create({
-        email: 'suresh@snapbulance.com',
+        email: 'suresh@AmbuSOS.com',
         phone: '9999922222',
         fullName: 'Suresh Patil',
         passwordHash: dummyPassword,
@@ -119,7 +119,7 @@ async function seedSystemData() {
         ambulanceId: driverTwoAmbulance.id,
     });
     const cfrUser = await UserModel.create({
-        email: 'mohit@snapbulance.com',
+        email: 'mohit@AmbuSOS.com',
         phone: '3333300000',
         fullName: 'Mohit Kumar',
         passwordHash: dummyPassword,

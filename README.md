@@ -31,9 +31,9 @@
 
 ## 📖 Overview
 
-**SnapBulance** is a MERN emergency logistics platform built to solve the critical "last mile" problems in ambulance dispatch. While ride-sharing apps have perfected pickup logistics, emergency services routinely suffer from traffic delays and lack of hospital preparedness.
+**AmbuSOS** is a MERN emergency logistics platform built to solve the critical "last mile" problems in ambulance dispatch. While ride-sharing apps have perfected pickup logistics, emergency services routinely suffer from traffic delays and lack of hospital preparedness.
 
-SnapBulance treats EMS as a **real-time distributed system**. The MVP delivers instant booking, intelligent pathfinding that prioritizes wide roads, preemptive proximity alerts to clear traffic, and automated data relay to destination hospitals — all running on a cloud-native, Kubernetes-orchestrated infrastructure.
+AmbuSOS treats EMS as a **real-time distributed system**. The MVP delivers instant booking, intelligent pathfinding that prioritizes wide roads, preemptive proximity alerts to clear traffic, and automated data relay to destination hospitals — all running on a cloud-native, Kubernetes-orchestrated infrastructure.
 
 ---
 
@@ -148,7 +148,7 @@ If your testing gets messy, this endpoint acts as a "Clean Slate" button. It saf
 
 ## 📬 Contact & Inquiries
 
-SnapBulance's MVP is fully shipped — a distributed, real-time emergency dispatch system running on a production-grade Kubernetes cluster. Building this from scratch across the full stack, from Socket.IO trip rooms and MongoDB-backed workflows to K8s health probes and rolling deployments, has been an exercise in treating emergency logistics as the resilient distributed system it deserves to be.
+AmbuSOS's MVP is fully shipped — a distributed, real-time emergency dispatch system running on a production-grade Kubernetes cluster. Building this from scratch across the full stack, from Socket.IO trip rooms and MongoDB-backed workflows to K8s health probes and rolling deployments, has been an exercise in treating emergency logistics as the resilient distributed system it deserves to be.
 
 If you'd like to dig into the architecture, discuss the engineering tradeoffs, or explore collaboration opportunities, I'd love to hear from you.
 

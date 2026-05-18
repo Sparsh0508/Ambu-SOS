@@ -1,71 +1,108 @@
-// src/store/useAuthStore.js
-import { create } from 'zustand';
-import { api } from '../utils/api';
-// 2. Create the Store
-export const useAuthStore = create((set) => ({
-    user: null,
-    isAuthenticated: false,
-    isLoading: true, // Start true so we can check auth on initial load
-    checkAuth: async () => {
-        try {
-            // Hits your @Get() endpoint in AuthController
-            const response = await api.get('/auth');
-            if (response.data.isAuth) {
-                set({ user: response.data.user, isAuthenticated: true, isLoading: false });
-            }
-            else {
-                if (useAuthStore.getState().isAuthenticated) {
-                    set({ isLoading: false });
-                    return;
-                }
-                set({ user: null, isAuthenticated: false, isLoading: false });
-            }
-        }
-        catch {
-            if (useAuthStore.getState().isAuthenticated) {
-                set({ isLoading: false });
-                return;
-            }
-            set({ user: null, isAuthenticated: false, isLoading: false });
-        }
-    },
-    login: async (credentials) => {
-        set({ isLoading: true });
-        try {
-            // The backend sets the HTTP-only cookie here
-            const response = await api.post('/auth/login', credentials);
-            set({ user: response.data.user, isAuthenticated: true, isLoading: false });
-        }
-        catch (error) {
-            set({ isLoading: false });
-            throw error; // Let the component handle the error UI
-        }
-    },
-    signup: async (userData) => {
-        set({ isLoading: true });
-        try {
-            const response = await api.post('/auth/signup', userData);
-            set({ user: response.data.user, isAuthenticated: true, isLoading: false });
-        }
-        catch (error) {
-            set({ isLoading: false });
-            throw error;
-        }
-    },
-    logout: async () => {
-        try {
-            // Hits backend to clear the cookie
-            await api.post('/auth/logout');
-            set({ user: null, isAuthenticated: false });
-        }
-        catch (error) {
-            console.error('Logout failed', error);
-        }
-    },
-    // Called purely by the Axios Interceptor
-    handleSessionExpired: () => {
-        set({ user: null, isAuthenticated: false, isLoading: false });
-        // Note: React Router will automatically detect isAuthenticated === false 
-        // and kick them out of any ProtectedRoute.
-    },
+import { create } from "zustand";
+import { apiClient, registerUnauthorizedHandler } from "../services/apiClient";
+
+export const useAuthStore = create((set, get) => ({
+  user: null,
+  isAuthenticated: false,
+  isLoading: true,
+
+  async checkAuth() {
+    try {
+      const response = await apiClient.get("/auth");
+
+      if (response.data?.isAuth && response.data?.user) {
+        set({
+          user: response.data.user,
+          isAuthenticated: true,
+          isLoading: false,
+        });
+        return response.data.user;
+      }
+
+      set({
+        user: null,
+        isAuthenticated: false,
+        isLoading: false,
+      });
+      return null;
+    } catch {
+      set({
+        user: null,
+        isAuthenticated: false,
+        isLoading: false,
+      });
+      return null;
+    }
+  },
+
+  async login(credentials) {
+    set({ isLoading: true });
+
+    try {
+      const response = await apiClient.post("/auth/login", credentials);
+
+      set({
+        user: response.data.user,
+        isAuthenticated: true,
+        isLoading: false,
+      });
+
+      return response.data.user;
+    } catch (error) {
+      set({ isLoading: false });
+      throw error;
+    }
+  },
+
+  async signup(payload) {
+    set({ isLoading: true });
+
+    try {
+      const response = await apiClient.post("/auth/signup", payload);
+
+      set({
+        user: response.data.user,
+        isAuthenticated: true,
+        isLoading: false,
+      });
+
+      return response.data.user;
+    } catch (error) {
+      set({ isLoading: false });
+      throw error;
+    }
+  },
+
+  async logout() {
+    try {
+      await apiClient.post("/auth/logout");
+    } catch {
+      // Always clear local state, even if the session already expired.
+    } finally {
+      set({
+        user: null,
+        isAuthenticated: false,
+        isLoading: false,
+      });
+    }
+  },
+
+  handleSessionExpired() {
+    const state = get();
+
+    if (!state.isAuthenticated && !state.user) {
+      set({ isLoading: false });
+      return;
+    }
+
+    set({
+      user: null,
+      isAuthenticated: false,
+      isLoading: false,
+    });
+  },
 }));
+
+registerUnauthorizedHandler(() => {
+  useAuthStore.getState().handleSessionExpired();
+});

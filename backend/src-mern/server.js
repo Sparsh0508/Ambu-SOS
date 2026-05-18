@@ -16,7 +16,7 @@ async function bootstrap() {
     });
     registerSocketHandlers(io);
     httpServer.listen(config.port, () => {
-        console.log(`SnapBulance MERN backend listening on port ${config.port}`);
+        console.log(`AmbuSOS MERN backend listening on port ${config.port}`);
     });
 }
 bootstrap().catch((error) => {

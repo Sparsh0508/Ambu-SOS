@@ -1,0 +1,99 @@
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Material+Symbols+Outlined:FILL@0..1&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-outline-variant;
+    box-sizing: border-box;
+  }
+
+  html {
+    @apply bg-background;
+    color-scheme: light;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply m-0 bg-background font-sans text-on-surface antialiased;
+  }
+
+  body,
+  #root {
+    min-height: 100vh;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+  }
+}
+
+@layer components {
+  .material-symbols-outlined {
+    font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+    line-height: 1;
+  }
+
+  .icon-filled {
+    font-variation-settings: "FILL" 1, "wght" 500, "GRAD" 0, "opsz" 24;
+  }
+
+  .clinical-grid {
+    background-image:
+      linear-gradient(to right, rgba(201, 211, 218, 0.85) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(201, 211, 218, 0.85) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  .map-grid-light {
+    background-color: #e6ecef;
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(143, 111, 108, 0.3) 1px, transparent 0),
+      linear-gradient(rgba(255, 255, 255, 0.7) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.7) 1px, transparent 1px);
+    background-size: 20px 20px, 64px 64px, 64px 64px;
+  }
+
+  .map-grid-dark {
+    background-color: #1f2933;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+      radial-gradient(circle at center, rgba(175, 16, 26, 0.18), transparent 45%);
+    background-size: 32px 32px, 32px 32px, 100% 100%;
+  }
+
+  .panel-border {
+    @apply border border-outline-variant;
+  }
+
+  .safe-bottom-space {
+    padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+  }
+}
+
+@layer utilities {
+  .scrollbar-thin {
+    scrollbar-width: thin;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: rgba(138, 152, 165, 0.5);
+    border-radius: 999px;
+  }
+}

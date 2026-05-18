@@ -3,7 +3,7 @@ export const healthRouter = Router();
 healthRouter.get('/', (_req, res) => {
     res.json({
         status: 'ok',
-        service: 'snapbulance-backend',
+        service: 'AmbuSOS-backend',
         timestamp: new Date().toISOString(),
     });
 });

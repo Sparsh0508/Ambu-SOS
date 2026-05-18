@@ -113,7 +113,7 @@ authRouter.post('/signup', asyncHandler(async (req, res) => {
     const token = signToken(user.id, user.email, user.role);
     setAuthCookie(res, token);
     res.json({
-        message: 'Welcome to SnapBulance!',
+        message: 'Welcome to AmbuSOS!',
         user: toSafeUser(user),
     });
 }));
